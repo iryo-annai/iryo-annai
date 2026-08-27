@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://iryo-annai.github.io/iryo-annai/sitemap.xml

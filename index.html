@@ -1,0 +1,1162 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-C82XH6P09B"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'G-C82XH6P09B');
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="アイテル病院ナビ。全国47都道府県の病院・診療所を、診療科と「今すぐ診てもらえるか」で検索できます。厚生労働省オープンデータを利用。">
+<title>アイテル病院ナビ | 今すぐ診てもらえる病院がわかる</title>
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="icon" href="favicon.ico" sizes="any">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta property="og:title" content="アイテル病院ナビ">
+<meta property="og:description" content="全国47都道府県の病院・診療所を、診療科と「今すぐ診てもらえるか」で検索できます。">
+<meta property="og:type" content="website">
+<meta property="og:image" content="icon-512.png">
+<meta name="twitter:card" content="summary">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Shippori+Mincho:wght@500;700&family=Zen+Kaku+Gothic+New:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#20242b;
+    --steel-900:#242a33;
+    --steel-700:#3d4756;
+    --steel-500:#66748a;
+    --steel-300:#a9b4c4;
+    --steel-100:#e7eaf0;
+    --paper:#f4f2ee;
+    --paper-2:#ffffff;
+    --ember:#c65a2e;
+    --ember-dark:#a3461f;
+    --ember-soft:#f4dccb;
+    --open-green:#2f7a52;
+    --open-green-soft:#dcefe3;
+    --closed-gray:#98a0ab;
+    --line:#d8dbe1;
+    --shadow: 0 8px 24px -12px rgba(32,36,43,0.25);
+    --radius: 14px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--paper);
+    color:var(--ink);
+    font-family:'Zen Kaku Gothic New', -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Yu Gothic', sans-serif;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;}
+
+  /* ---------- Boot loading ---------- */
+  .boot-loading{
+    min-height:100vh;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    gap:16px;
+    color:var(--steel-500);
+    font-size:14px;
+  }
+  .boot-spinner{
+    width:34px; height:34px;
+    border:3px solid var(--steel-100);
+    border-top-color:var(--ember);
+    border-radius:50%;
+    animation:spin 0.8s linear infinite;
+  }
+  @keyframes spin{to{transform:rotate(360deg);}}
+
+  /* ---------- Header: forged blade motif ---------- */
+  .hero{
+    position:relative;
+    background:linear-gradient(155deg, var(--ink) 0%, var(--steel-900) 45%, var(--steel-700) 100%);
+    color:#f2efe9;
+    padding:38px 20px 46px;
+    overflow:hidden;
+  }
+  .hero::after{
+    content:"";
+    position:absolute;
+    left:0; right:0; bottom:0;
+    height:14px;
+    background:
+      linear-gradient(115deg, transparent 48%, var(--ember) 48.4%, var(--ember) 51.6%, transparent 52%),
+      linear-gradient(65deg, transparent 48%, var(--ember-dark) 48.4%, var(--ember-dark) 51.6%, transparent 52%);
+    background-size: 34px 100%, 34px 100%;
+    background-position: 0 0, 17px 0;
+    opacity:0.55;
+  }
+  .hero-inner{max-width:920px;margin:0 auto;position:relative;}
+  .eyebrow-row{display:flex; align-items:center; justify-content:space-between; gap:10px; flex-wrap:wrap;}
+  .lang-switch{
+    display:inline-flex;
+    background:rgba(255,255,255,0.08);
+    border:1px solid rgba(255,255,255,0.2);
+    border-radius:999px;
+    overflow:hidden;
+  }
+  .lang-switch button{
+    border:none; background:transparent;
+    padding:5px 12px;
+    font-family:inherit; font-size:11.5px; font-weight:700;
+    color:rgba(255,255,255,0.6);
+    cursor:pointer;
+  }
+  .lang-switch button.active{background:var(--ember); color:#fff;}
+  .eyebrow{
+    font-size:12.5px;
+    letter-spacing:0.14em;
+    color:var(--ember-soft);
+    font-weight:700;
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-bottom:10px;
+  }
+  .eyebrow .blade{
+    width:22px;height:2px;background:var(--ember);
+    position:relative;
+  }
+  .eyebrow .blade::after{
+    content:"";
+    position:absolute; right:-1px; top:-3px;
+    width:0;height:0;
+    border-top:4px solid transparent;
+    border-bottom:4px solid transparent;
+    border-left:6px solid var(--ember);
+  }
+  h1{
+    font-family:'Shippori Mincho', serif;
+    font-weight:700;
+    font-size:clamp(28px,4.6vw,42px);
+    margin:0 0 10px;
+    letter-spacing:0.02em;
+  }
+  .hero p.lead{
+    margin:0;
+    color:var(--steel-300);
+    font-size:15px;
+    max-width:560px;
+  }
+  .clock-strip{
+    margin-top:22px;
+    display:inline-flex;
+    align-items:center;
+    gap:10px;
+    background:rgba(255,255,255,0.06);
+    border:1px solid rgba(255,255,255,0.14);
+    padding:8px 16px;
+    border-radius:999px;
+    font-size:13.5px;
+    color:#f2efe9;
+  }
+  .clock-strip strong{font-variant-numeric:tabular-nums; font-weight:700;}
+  .clock-dot{width:7px;height:7px;border-radius:50%;background:var(--ember);animation:pulse 2s infinite;}
+  @keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.35;}}
+  .notice{
+    margin:12px 0 0;
+    font-size:12.5px;
+    color:var(--ember-soft);
+    background:rgba(198,90,46,0.16);
+    border:1px solid rgba(198,90,46,0.35);
+    display:inline-block;
+    padding:7px 14px;
+    border-radius:8px;
+  }
+
+  /* ---------- City selector (Seki-first) ---------- */
+  .city-tabs{
+    max-width:920px;margin:-18px auto 0;padding:0 20px;
+    position:relative; z-index:2;
+    display:flex; align-items:center; gap:10px; flex-wrap:wrap;
+  }
+  .city-main{
+    font-family:inherit;
+    font-size:14.5px;
+    font-weight:900;
+    padding:10px 20px 12px;
+    border:none;
+    background:var(--paper-2);
+    color:var(--ink);
+    cursor:pointer;
+    border-radius:10px 10px 0 0;
+    white-space:nowrap;
+    display:flex; align-items:center; gap:8px;
+    box-shadow:var(--shadow);
+  }
+  .city-main .pin{color:var(--ember); font-size:13px;}
+  .city-main.inactive{
+    background:var(--steel-700);
+    color:rgba(255,255,255,0.8);
+    box-shadow:none;
+  }
+  .city-main.inactive .pin{color:var(--ember-soft);}
+  .nearby-wrap{
+    display:flex; align-items:center; gap:8px;
+    padding:9px 14px;
+    margin-bottom:0;
+    background:var(--paper-2);
+    border-radius:10px;
+    font-size:12.5px;
+    color:var(--steel-500);
+    font-weight:600;
+  }
+  .nearby-wrap select{
+    padding:6px 30px 6px 10px;
+    border-radius:8px;
+    border:1.5px solid var(--line);
+    background:var(--paper-2) url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="6"><path d="M0 0 L5 6 L10 0" fill="none" stroke="%2366748a" stroke-width="1.6"/></svg>') no-repeat right 10px center;
+    appearance:none; -webkit-appearance:none;
+    color:var(--ink);
+    font-family:inherit;
+    font-size:12.5px;
+    font-weight:600;
+    cursor:pointer;
+  }
+  .nearby-wrap select:focus{outline:2px solid var(--ember);}
+  .nearby-wrap select option{color:var(--ink);}
+  .nearby-badge{
+    display:none;
+    font-size:11px; font-weight:700;
+    background:rgba(198,90,46,0.9); color:#fff;
+    padding:2px 8px; border-radius:999px;
+  }
+  .nearby-wrap.active .nearby-badge{display:inline-block;}
+  .change-home{
+    flex:none;
+    font-family:inherit;
+    font-size:12px;
+    font-weight:700;
+    color:var(--steel-500);
+    background:var(--paper-2);
+    border:none;
+    text-decoration:none;
+    cursor:pointer;
+    padding:9px 14px;
+    border-radius:10px;
+    align-self:center;
+  }
+  .change-home:hover{color:var(--ember-dark); background:var(--paper);}
+
+  /* ---------- Home city modal ---------- */
+  .modal-overlay{
+    position:fixed; inset:0;
+    background:rgba(20,22,27,0.72);
+    display:flex; align-items:center; justify-content:center;
+    padding:20px;
+    z-index:100;
+  }
+  .modal-overlay.hidden{display:none;}
+  .modal-card{
+    background:var(--paper-2);
+    border-radius:16px;
+    padding:28px 26px;
+    max-width:420px;
+    width:100%;
+    box-shadow:0 24px 60px -20px rgba(0,0,0,0.4);
+  }
+  .modal-card h2{
+    font-family:'Shippori Mincho', serif;
+    font-size:20px;
+    margin:0 0 8px;
+  }
+  .modal-card p{
+    font-size:13.5px;
+    color:var(--steel-500);
+    margin:0 0 18px;
+  }
+  .modal-card select{
+    width:100%;
+    padding:12px 34px 12px 14px;
+    border:1.5px solid var(--line);
+    border-radius:10px;
+    background:var(--paper) url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="6"><path d="M0 0 L5 6 L10 0" fill="none" stroke="%2366748a" stroke-width="1.6"/></svg>') no-repeat right 14px center;
+    appearance:none; -webkit-appearance:none;
+    font-family:inherit;
+    font-size:15px;
+    color:var(--ink);
+    margin-bottom:16px;
+  }
+  .modal-card select:focus{outline:2px solid var(--ember);}
+  .modal-card select:disabled{opacity:0.5; cursor:not-allowed;}
+  .modal-card select + select{margin-top:-8px;}
+  .modal-card button.confirm{
+    width:100%;
+    padding:13px;
+    border:none;
+    border-radius:10px;
+    background:var(--ember);
+    color:#fff;
+    font-family:inherit;
+    font-size:15px;
+    font-weight:700;
+    cursor:pointer;
+  }
+  .modal-card button.confirm:hover{background:var(--ember-dark);}
+
+  /* ---------- Controls ---------- */
+  .wrap{max-width:920px;margin:0 auto;padding:0 20px;}
+  .controls{
+    background:var(--paper-2);
+    border:1px solid var(--line);
+    border-radius:0 var(--radius) var(--radius) var(--radius);
+    padding:18px;
+    margin-top:0;
+    position:relative;
+    box-shadow:var(--shadow);
+    display:grid;
+    gap:14px;
+  }
+  .search-row{display:flex; gap:10px;}
+  .search-row input[type="text"]{
+    flex:1;
+    padding:12px 14px;
+    border:1.5px solid var(--line);
+    border-radius:10px;
+    font-size:15px;
+    font-family:inherit;
+    background:var(--paper);
+    color:var(--ink);
+  }
+  .search-row input[type="text"]:focus{outline:2px solid var(--ember); outline-offset:1px; border-color:var(--ember);}
+  .filter-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:10px;
+    align-items:center;
+  }
+  select{
+    padding:10px 12px;
+    border:1.5px solid var(--line);
+    border-radius:10px;
+    background:var(--paper) url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="10" height="6"><path d="M0 0 L5 6 L10 0" fill="none" stroke="%2366748a" stroke-width="1.6"/></svg>') no-repeat right 12px center;
+    appearance:none;
+    -webkit-appearance:none;
+    font-family:inherit;
+    font-size:14px;
+    color:var(--ink);
+    min-width:150px;
+    cursor:pointer;
+  }
+  select:focus{outline:2px solid var(--ember);}
+  .seg{
+    display:inline-flex;
+    background:var(--paper);
+    border:1.5px solid var(--line);
+    border-radius:10px;
+    overflow:hidden;
+  }
+  .seg button{
+    border:none;
+    background:transparent;
+    padding:9px 14px;
+    font-family:inherit;
+    font-size:13.5px;
+    font-weight:500;
+    color:var(--steel-500);
+    cursor:pointer;
+    transition:background .15s, color .15s;
+    white-space:nowrap;
+  }
+  .seg button + button{border-left:1.5px solid var(--line);}
+  .seg button.active{background:var(--steel-900); color:#fff;}
+  .result-count{
+    margin-left:auto;
+    font-size:13px;
+    color:var(--steel-500);
+    font-weight:500;
+  }
+
+  /* ---------- List ---------- */
+  .list{max-width:920px;margin:22px auto 60px; padding:0 20px; display:grid; gap:14px;}
+  .card{
+    background:var(--paper-2);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:18px 18px 16px;
+    transition:box-shadow .15s, transform .15s;
+  }
+  .card:hover{box-shadow:var(--shadow);}
+  .card-top{display:flex; justify-content:space-between; align-items:flex-start; gap:12px;}
+  .card-name{
+    font-size:17px;
+    font-weight:700;
+    margin:0 0 4px;
+    letter-spacing:0.01em;
+  }
+  .kind-tag{
+    display:inline-block;
+    font-size:11px;
+    font-weight:700;
+    padding:2px 8px;
+    border-radius:5px;
+    margin-right:7px;
+    letter-spacing:0.03em;
+    vertical-align:middle;
+    position:relative;
+    top:-1px;
+  }
+  .kind-tag.hospital{background:var(--steel-100); color:var(--steel-700);}
+  .kind-tag.clinic{background:#eef1f5; color:var(--steel-500);}
+  .card-addr{font-size:13.5px; color:var(--steel-500); margin:0 0 2px;}
+  .card-links{font-size:13px; margin-top:4px; display:flex; gap:14px; flex-wrap:wrap;}
+  .card-links a{color:var(--ember-dark); text-decoration:none; font-weight:500;}
+  .card-links a:hover{text-decoration:underline;}
+
+  .status-badge{
+    flex:none;
+    font-size:12.5px;
+    font-weight:700;
+    padding:6px 12px;
+    border-radius:999px;
+    white-space:nowrap;
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+  }
+  .status-badge .dot{width:7px;height:7px;border-radius:50%;}
+  .status-badge.open{background:var(--open-green-soft); color:var(--open-green);}
+  .status-badge.open .dot{background:var(--open-green);}
+  .status-badge.closed{background:#eef0f2; color:var(--closed-gray);}
+  .status-badge.closed .dot{background:var(--closed-gray);}
+  .status-badge.before{background:#eef0f2; color:var(--closed-gray);}
+  .status-badge.before .dot{background:var(--closed-gray);}
+  .status-badge.none{background:#eef0f2; color:var(--closed-gray);}
+  .status-badge.none .dot{background:var(--closed-gray);}
+  .status-badge.lunch{background:#fdecd2; color:#a3671b;}
+  .status-badge.lunch .dot{background:#e0a83f;}
+
+  .dept-chips{display:flex; flex-wrap:wrap; gap:7px; margin-top:12px;}
+  .chip{
+    font-size:12.5px;
+    padding:6px 11px;
+    border-radius:8px;
+    background:var(--paper);
+    border:1px solid var(--line);
+    cursor:pointer;
+    display:inline-flex;
+    align-items:center;
+    gap:6px;
+    color:var(--steel-700);
+    font-family:inherit;
+    transition:background .12s, border-color .12s;
+  }
+  .chip:hover{border-color:var(--steel-300);}
+  .chip.active{background:var(--steel-900); color:#fff; border-color:var(--steel-900);}
+  .chip .dot{width:6px;height:6px;border-radius:50%;background:var(--open-green); flex:none;}
+  .chip .dot.off{background:var(--closed-gray);}
+  .chip.active .dot{background:#8be0af;}
+  .chip.active .dot.off{background:#9aa4b3;}
+  .chip.match{outline:1.5px solid var(--ember); outline-offset:0;}
+
+  .schedule{
+    margin-top:12px;
+    border-top:1px dashed var(--line);
+    padding-top:12px;
+    font-size:13px;
+  }
+  .schedule table{width:100%; border-collapse:collapse;}
+  .schedule th, .schedule td{
+    text-align:center;
+    padding:6px 3px;
+    font-size:12.5px;
+    color:var(--steel-700);
+  }
+  .schedule th{color:var(--steel-500); font-weight:600; font-size:11.5px;}
+  .schedule td.today{background:var(--ember-soft); border-radius:6px; font-weight:700; color:var(--ember-dark);}
+  .schedule .blockline{display:block; white-space:nowrap;}
+
+  .empty{
+    text-align:center;
+    padding:60px 20px;
+    color:var(--steel-500);
+  }
+  .empty .big{font-size:34px; margin-bottom:10px;}
+
+  footer{
+    max-width:920px;margin:0 auto;padding:20px 20px 50px;
+    font-size:12px; color:var(--steel-500); border-top:1px solid var(--line);
+  }
+  footer a{color:var(--steel-500);}
+
+  @media (max-width:600px){
+    .city-tabs{margin-top:-14px; align-items:center;}
+    .city-main{padding:9px 14px 10px; font-size:13px;}
+    .nearby-wrap{font-size:11.5px; padding:8px 10px;}
+    .change-home{font-size:11px; padding:8px 10px;}
+    .hero{padding:30px 16px 40px;}
+    .controls{padding:14px;}
+    .filter-row{gap:8px;}
+    select{min-width:0; flex:1;}
+    .result-count{width:100%; margin-left:0; order:99;}
+    .card-top{flex-direction:column;}
+    .status-badge{align-self:flex-start;}
+  }
+</style>
+</head>
+<body>
+
+<div id="bootLoading" class="boot-loading">
+  <div class="boot-spinner"></div>
+  <p id="bootLoadingText">データを読み込んでいます…</p>
+</div>
+
+<div id="appBody" style="display:none">
+
+<div class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow-row">
+      <div class="eyebrow"><span class="blade"></span>NATIONWIDE MEDICAL GUIDE</div>
+      <div class="lang-switch" id="langSwitch">
+        <button data-lang="ja" class="active">日本語</button>
+        <button data-lang="en">English</button>
+      </div>
+    </div>
+    <h1 id="siteTitle">アイテル病院ナビ</h1>
+    <p class="lead" id="leadText">全国47都道府県の病院・クリニックを、あなたの街を中心に探せます。診療科と「今すぐ診てもらえるか」で検索。厚生労働省オープンデータ（医療情報ネット）をもとに作成。</p>
+    <div class="clock-strip"><span class="clock-dot"></span><span id="todayPrefix">本日</span> <strong id="todayLabel">-</strong> <span id="clockSep">・現在時刻</span> <strong id="clockLabel">--:--</strong></div>
+    <p class="notice" id="noticeText">※臨時休業・診療時間の変更など最新の状況は、必ず各医療機関に直接ご確認ください。</p>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="city-tabs" id="cityTabs">
+    <button class="city-main" id="cityMainBtn"><span class="pin">📍</span>-</button>
+    <button class="change-home" id="changeHomeBtn">地域を変更</button>
+    <div class="nearby-wrap" id="nearbyWrap">
+      <span id="nearbyLabel">近隣の市町も見る</span>
+      <select id="nearbySelect">
+        <option value="" id="nearbySelectPlaceholder">選択してください</option>
+      </select>
+      <span class="nearby-badge" id="nearbyBadge">表示中</span>
+    </div>
+  </div>
+  <div class="controls">
+    <div class="search-row">
+      <input type="text" id="searchInput" placeholder="病院名・クリニック名・住所で検索（例: 内科、山田、〇〇クリニック）">
+    </div>
+    <div class="filter-row">
+      <select id="deptSelect"><option value="" id="deptSelectPlaceholder">すべての診療科</option></select>
+      <div class="seg" id="kindSeg">
+        <button data-kind="" class="active" id="kindAllBtn">すべて</button>
+        <button data-kind="hospital" id="kindHospitalBtn">病院</button>
+        <button data-kind="clinic" id="kindClinicBtn">診療所</button>
+      </div>
+      <div class="seg" id="sortSeg">
+        <button data-sort="name" id="sortNameBtn">名前順</button>
+        <button data-sort="open" class="active" id="sortOpenBtn">営業中を先に</button>
+      </div>
+      <span class="result-count" id="resultCount"></span>
+    </div>
+  </div>
+</div>
+
+<div class="list" id="list"></div>
+
+<footer id="footerText">
+  対象エリア：全国47都道府県（87,870件）。データ出典：厚生労働省「医療情報ネット（ナビイ）」オープンデータ（2026年6月1日時点、病院・診療所）／公共データ利用規約(PDL1.0)。診療時間・診療科は各施設からの報告時点の情報のため、受診前に必ず各施設へご確認ください。
+</footer>
+
+<div class="modal-overlay hidden" id="homeModalOverlay">
+  <div class="modal-card">
+    <h2 id="modalTitle">お住まいの市区町村は？</h2>
+    <p id="modalDesc">選んだ街を「ホーム」として最初に表示します。あとから「地域を変更」でいつでも変えられます。</p>
+    <select id="homePrefSelect"></select>
+    <select id="homeCitySelect" disabled></select>
+    <button class="confirm" id="homeCityConfirm">この街をホームに設定</button>
+  </div>
+</div>
+
+</div><!-- /#appBody -->
+
+<script>
+let DATA = [];
+
+const PREF_LIST = [
+ '北海道','青森県','岩手県','宮城県','秋田県','山形県','福島県',
+ '茨城県','栃木県','群馬県','埼玉県','千葉県','東京都','神奈川県',
+ '新潟県','富山県','石川県','福井県','山梨県','長野県','岐阜県',
+ '静岡県','愛知県','三重県','滋賀県','京都府','大阪府','兵庫県',
+ '奈良県','和歌山県','鳥取県','島根県','岡山県','広島県','山口県',
+ '徳島県','香川県','愛媛県','高知県','福岡県','佐賀県','長崎県',
+ '熊本県','大分県','宮崎県','鹿児島県','沖縄県'
+];
+const PREF_CODE = {};
+PREF_LIST.forEach((name,i)=>{ PREF_CODE[name] = String(i+1).padStart(2,'0'); });
+const PREF_FILE = name => `pref_${PREF_CODE[name]}.json`;
+
+// Land-adjacent prefectures, used to widen the "nearby cities" search
+// across prefecture borders without loading all 47 files.
+const PREF_ADJACENCY = {
+  '北海道':[], '青森県':['岩手県','秋田県'], '岩手県':['青森県','秋田県','宮城県'],
+  '宮城県':['岩手県','秋田県','山形県','福島県'], '秋田県':['青森県','岩手県','宮城県','山形県'],
+  '山形県':['秋田県','宮城県','福島県','新潟県'], '福島県':['宮城県','山形県','新潟県','群馬県','栃木県','茨城県'],
+  '茨城県':['福島県','栃木県','埼玉県','千葉県'], '栃木県':['福島県','茨城県','群馬県','埼玉県'],
+  '群馬県':['福島県','栃木県','埼玉県','新潟県','長野県'],
+  '埼玉県':['群馬県','栃木県','茨城県','千葉県','東京都','山梨県','長野県'],
+  '千葉県':['茨城県','埼玉県','東京都'], '東京都':['埼玉県','千葉県','神奈川県','山梨県'],
+  '神奈川県':['東京都','山梨県','静岡県'], '新潟県':['山形県','福島県','群馬県','長野県','富山県'],
+  '富山県':['新潟県','長野県','岐阜県','石川県'], '石川県':['富山県','岐阜県','福井県'],
+  '福井県':['石川県','岐阜県','滋賀県','京都府'], '山梨県':['埼玉県','東京都','神奈川県','静岡県','長野県'],
+  '長野県':['群馬県','埼玉県','山梨県','静岡県','愛知県','岐阜県','新潟県','富山県'],
+  '岐阜県':['富山県','石川県','福井県','長野県','愛知県','三重県','滋賀県'],
+  '静岡県':['神奈川県','山梨県','長野県','愛知県'], '愛知県':['長野県','岐阜県','三重県','静岡県'],
+  '三重県':['岐阜県','愛知県','滋賀県','京都府','奈良県','和歌山県'],
+  '滋賀県':['福井県','岐阜県','三重県','京都府'], '京都府':['福井県','滋賀県','三重県','奈良県','大阪府','兵庫県'],
+  '大阪府':['京都府','奈良県','和歌山県','兵庫県'], '兵庫県':['京都府','大阪府','岡山県','鳥取県'],
+  '奈良県':['京都府','大阪府','三重県','和歌山県'], '和歌山県':['三重県','奈良県','大阪府'],
+  '鳥取県':['兵庫県','岡山県','島根県'], '島根県':['鳥取県','広島県','山口県'],
+  '岡山県':['兵庫県','鳥取県','広島県'], '広島県':['岡山県','島根県','山口県'],
+  '山口県':['島根県','広島県','福岡県'], '徳島県':['香川県','愛媛県','高知県'],
+  '香川県':['徳島県','愛媛県'], '愛媛県':['香川県','徳島県','高知県'], '高知県':['徳島県','愛媛県'],
+  '福岡県':['佐賀県','熊本県','大分県','山口県'], '佐賀県':['福岡県','長崎県'], '長崎県':['佐賀県'],
+  '熊本県':['福岡県','佐賀県','大分県','宮崎県','鹿児島県'], '大分県':['福岡県','熊本県','宮崎県'],
+  '宮崎県':['熊本県','大分県','鹿児島県'], '鹿児島県':['熊本県','宮崎県'], '沖縄県':[]
+};
+
+const loadedPrefs = {}; // pref name -> array of facilities (already tagged with .pref)
+async function loadPref(pref){
+  if(loadedPrefs[pref]) return loadedPrefs[pref];
+  const arr = await fetch(PREF_FILE(pref)).then(r=>r.json());
+  arr.forEach(f => f.pref = pref);
+  loadedPrefs[pref] = arr;
+  DATA = DATA.concat(arr);
+  return arr;
+}
+
+const DAY_KEYS = ['日','月','火','水','木','金','土']; // index = JS getDay()
+const DAY_LABELS_ROW = ['月','火','水','木','金','土','日'];
+
+// ---------- i18n ----------
+const DEPT_EN = {"内科": "Internal Medicine", "小児科": "Pediatrics", "消化器内科": "Gastroenterology", "整形外科": "Orthopedics", "循環器内科": "Cardiology", "リハビリテーション科": "Rehabilitation", "外科": "Surgery", "皮膚科": "Dermatology", "眼科": "Ophthalmology", "呼吸器内科": "Pulmonology", "精神科": "Psychiatry", "アレルギー科": "Allergy", "耳鼻いんこう科": "ENT (Otolaryngology)", "泌尿器科": "Urology", "心療内科": "Psychosomatic Medicine", "リウマチ科": "Rheumatology", "胃腸内科": "Gastroenterology (Stomach/Intestine)", "脳神経外科": "Neurosurgery", "糖尿病内科": "Diabetes/Endocrinology", "放射線科": "Radiology", "形成外科": "Plastic Surgery", "肛門外科": "Proctology (Surgical)", "産婦人科": "Obstetrics & Gynecology", "神経内科": "Neurology", "婦人科": "Gynecology", "腎臓内科": "Nephrology", "美容皮膚科": "Cosmetic Dermatology", "麻酔科": "Anesthesiology", "脳神経内科": "Neurology", "消化器外科": "Gastrointestinal Surgery", "乳腺外科": "Breast Surgery", "歯科": "Dentistry", "美容外科": "Cosmetic Surgery", "人工透析内科": "Dialysis (Internal Medicine)", "内視鏡内科": "Endoscopy (Internal Medicine)", "心臓血管外科": "Cardiovascular Surgery", "歯科口腔外科": "Oral & Maxillofacial Surgery", "糖尿病・内分泌内科": "Diabetes & Endocrinology", "漢方内科": "Kampo (Herbal) Medicine", "呼吸器外科": "Thoracic Surgery", "血液内科": "Hematology", "内分泌内科": "Endocrinology", "産科": "Obstetrics", "糖尿病・代謝内科": "Diabetes & Metabolism", "肝臓内科": "Hepatology", "緩和ケア内科": "Palliative Care", "神経科": "Neurology/Psychiatry", "小児皮膚科": "Pediatric Dermatology", "アレルギー疾患内科": "Allergy (Internal Medicine)", "小児外科": "Pediatric Surgery", "ペインクリニック内科": "Pain Clinic", "老年内科": "Geriatric Medicine", "小児耳鼻いんこう科": "Pediatric ENT", "救急科": "Emergency Medicine", "児童精神科": "Child Psychiatry", "血管外科": "Vascular Surgery", "頭頸部・耳鼻いんこう科": "Head & Neck / ENT", "感染症内科": "Infectious Disease", "代謝・内分泌内科": "Metabolism & Endocrinology", "代謝内科": "Metabolic Medicine", "脂質代謝内科": "Lipid Metabolism", "産婦人科（生殖医療）": "OB/GYN (Fertility Treatment)", "腫瘍内科": "Oncology", "老年精神科": "Geriatric Psychiatry", "インフルエンザ": "Influenza", "気管食道・耳鼻いんこう科": "Bronchoesophagology / ENT", "放射線治療科": "Radiation Oncology", "ペインクリニック外科": "Pain Clinic (Surgical)", "小児歯科": "Pediatric Dentistry", "放射線診断科": "Diagnostic Radiology", "女性内科": "Women's Internal Medicine", "矯正歯科": "Orthodontics", "大腸・肛門外科": "Colorectal Surgery", "性感染症内科": "STI Medicine", "頭頸部外科": "Head & Neck Surgery", "乳腺・内分泌外科": "Breast & Endocrine Surgery", "皮膚泌尿器科": "Dermatology & Urology", "心臓内科": "Cardiology", "小児眼科": "Pediatric Ophthalmology", "男性泌尿器科": "Men's Urology", "疼痛緩和内科": "Pain Management", "腎臓・泌尿器科": "Nephrology & Urology", "胃腸外科": "Gastrointestinal Surgery", "病理診断科": "Pathology", "血液・腫瘍内科": "Hematology & Oncology", "内視鏡外科": "Endoscopic Surgery", "心臓血管内科": "Cardiovascular Medicine", "老年心療内科": "Geriatric Psychosomatic Medicine", "小児泌尿器科": "Pediatric Urology", "臨床検査科": "Clinical Laboratory", "老年・呼吸器内科": "Geriatric Pulmonology", "新生児内科": "Neonatology", "気管食道外科": "Bronchoesophageal Surgery", "肛門内科": "Proctology (Internal)", "頭部皮膚科": "Scalp Dermatology", "気管食道内科": "Bronchoesophagology (Internal)", "循環器外科": "Cardiovascular Surgery", "大腸外科": "Colorectal Surgery", "気管食道科": "Bronchoesophagology"}
+;
+const DAY_EN = {'月':'Mon','火':'Tue','水':'Wed','木':'Thu','金':'Fri','土':'Sat','日':'Sun'};
+const PREF_EN = {
+ '北海道':'Hokkaido','青森県':'Aomori','岩手県':'Iwate','宮城県':'Miyagi','秋田県':'Akita',
+ '山形県':'Yamagata','福島県':'Fukushima','茨城県':'Ibaraki','栃木県':'Tochigi','群馬県':'Gunma',
+ '埼玉県':'Saitama','千葉県':'Chiba','東京都':'Tokyo','神奈川県':'Kanagawa','新潟県':'Niigata',
+ '富山県':'Toyama','石川県':'Ishikawa','福井県':'Fukui','山梨県':'Yamanashi','長野県':'Nagano',
+ '岐阜県':'Gifu','静岡県':'Shizuoka','愛知県':'Aichi','三重県':'Mie','滋賀県':'Shiga',
+ '京都府':'Kyoto','大阪府':'Osaka','兵庫県':'Hyogo','奈良県':'Nara','和歌山県':'Wakayama',
+ '鳥取県':'Tottori','島根県':'Shimane','岡山県':'Okayama','広島県':'Hiroshima','山口県':'Yamaguchi',
+ '徳島県':'Tokushima','香川県':'Kagawa','愛媛県':'Ehime','高知県':'Kochi','福岡県':'Fukuoka',
+ '佐賀県':'Saga','長崎県':'Nagasaki','熊本県':'Kumamoto','大分県':'Oita','宮崎県':'Miyazaki',
+ '鹿児島県':'Kagoshima','沖縄県':'Okinawa'
+};
+const I18N = {
+  ja: {
+    lead: '全国47都道府県の病院・クリニックを、あなたの街を中心に探せます。診療科と「今すぐ診てもらえるか」で検索。厚生労働省オープンデータ（医療情報ネット）をもとに作成。',
+    todayPrefix: '本日', clockSep: '・現在時刻',
+    notice: '※臨時休業・診療時間の変更など最新の状況は、必ず各医療機関に直接ご確認ください。',
+    changeHome: '地域を変更', nearbyLabel: '近隣の市町も見る', selectPlease: '選択してください',
+    nearbyBadge: '表示中', searchPlaceholder: '病院名・クリニック名・住所で検索（例: 内科、山田、〇〇クリニック）',
+    allDepts: 'すべての診療科', all: 'すべて', hospital: '病院', clinic: '診療所',
+    sortName: '名前順', sortOpen: '営業中を先に', resultCount: n => `${n} 件`,
+    modalTitle: 'お住まいの市区町村は？',
+    modalDesc: '選んだ街を「ホーム」として最初に表示します。あとから「地域を変更」でいつでも変えられます。',
+    prefSelectPlaceholder: '都道府県を選択', citySelectWaiting: '先に都道府県を選んでください',
+    loading: '読み込み中…', shiGroup: '市', townGroup: '郡・町村', confirmHome: 'この街をホームに設定',
+    footer: '対象エリア：全国47都道府県（87,870件）。データ出典：厚生労働省「医療情報ネット（ナビイ）」オープンデータ（2026年6月1日時点、病院・診療所）／公共データ利用規約(PDL1.0)。診療時間・診療科は各施設からの報告時点の情報のため、受診前に必ず各施設へご確認ください。',
+    bootLoading: 'データを読み込んでいます…', loadError: 'データの読み込みに失敗しました。<br>ページを再読み込みしてみてください。',
+    emptyResult: '条件に合う医療機関が見つかりませんでした。<br>検索条件を変えてみてください。',
+    mapLink: '地図で見る', siteLink: '公式サイト', scheduleTitle: dept => `${dept} の診療時間`,
+    holiday: '休診', statusOpen: '診療時間内', statusLunch: min => `昼休み中（${min}〜再開）`,
+    statusBefore: min => `本日 ${min}〜 受付予定`, statusClosed: '本日の受付終了', statusNone: '本日休診',
+    todayLabelSuffix: '曜日',
+  },
+  en: {
+    lead: 'Find hospitals and clinics anywhere in Japan\u2019s 47 prefectures, centered on your area. Search by department and by whether they\u2019re open right now. Built on open data from Japan\u2019s Ministry of Health, Labour and Welfare.',
+    todayPrefix: 'Today', clockSep: '\u00b7 Now',
+    notice: 'Note: Please contact each facility directly to confirm holiday closures or schedule changes.',
+    changeHome: 'Change area', nearbyLabel: 'Nearby areas', selectPlease: 'Select...',
+    nearbyBadge: 'Viewing', searchPlaceholder: 'Search by name or address (e.g. Internal Medicine, Yamada, XX Clinic)',
+    allDepts: 'All departments', all: 'All', hospital: 'Hospitals', clinic: 'Clinics',
+    sortName: 'Name', sortOpen: 'Open now first', resultCount: n => `${n} results`,
+    modalTitle: 'Where do you live?',
+    modalDesc: 'This sets your "home" city shown by default. You can change it anytime via "Change area".',
+    prefSelectPlaceholder: 'Select prefecture', citySelectWaiting: 'Select a prefecture first',
+    loading: 'Loading\u2026', shiGroup: 'Cities', townGroup: 'Towns & Villages', confirmHome: 'Set as home area',
+    footer: 'Coverage: all 47 prefectures of Japan (87,870 facilities). Source: Japan Ministry of Health, Labour and Welfare "Iryo Joho Net" open data (as of June 1, 2026, hospitals & clinics) / Public Data License (PDL1.0). Hours and departments reflect each facility\u2019s own reporting \u2014 please confirm directly before visiting.',
+    bootLoading: 'Loading data\u2026', loadError: 'Failed to load data.<br>Please try reloading the page.',
+    emptyResult: 'No facilities matched your search.<br>Try adjusting your filters.',
+    mapLink: 'View on map', siteLink: 'Official site', scheduleTitle: dept => `${dept} hours`,
+    holiday: 'Closed', statusOpen: 'Open now', statusLunch: min => `On lunch break (reopens ${min})`,
+    statusBefore: min => `Opens at ${min} today`, statusClosed: 'Closed for today', statusNone: 'Closed today',
+    todayLabelSuffix: '',
+  }
+};
+let lang = localStorage.getItem('sekiIryoLang') || 'ja';
+const LANG_KEY = 'sekiIryoLang';
+function t(key, ...args){
+  const v = I18N[lang][key];
+  return typeof v === 'function' ? v(...args) : v;
+}
+function translateDept(dept){
+  return lang === 'en' ? (DEPT_EN[dept] || dept) : dept;
+}
+function translateDay(d){
+  return lang === 'en' ? DAY_EN[d] : d;
+}
+function translatePref(pref){
+  return lang === 'en' ? (PREF_EN[pref] || pref) : pref;
+}
+
+function timeToMin(t){
+  const [h,m] = t.split(':').map(Number);
+  return h*60+m;
+}
+
+function now(){ return new Date(); }
+
+function todayKey(d){ return DAY_KEYS[d.getDay()]; }
+
+function isBlockOpenToday(block, dayKey, nowMin){
+  const range = block[dayKey];
+  if(!range) return false;
+  const start = timeToMin(range[0]);
+  const end = timeToMin(range[1]);
+  return nowMin >= start && nowMin <= end;
+}
+
+function deptIsOpen(dept, dayKey, nowMin){
+  return dept.blocks.some(b => isBlockOpenToday(b, dayKey, nowMin));
+}
+
+function facilityIsOpen(fac, dayKey, nowMin){
+  return fac.departments.some(d => deptIsOpen(d, dayKey, nowMin));
+}
+
+function fmtMin(min){
+  const h = Math.floor(min/60), m = min % 60;
+  return String(h).padStart(2,'0') + ':' + String(m).padStart(2,'0');
+}
+
+// Merge all of today's time windows across every department into a single
+// timeline, then classify "now" against it: open / lunch break / before
+// opening / finished for the day / no consultations today.
+function facilityStatus(fac, dayKey, nowMin){
+  let windows = [];
+  fac.departments.forEach(dept=>{
+    dept.blocks.forEach(b=>{
+      if(b[dayKey]){
+        windows.push([timeToMin(b[dayKey][0]), timeToMin(b[dayKey][1])]);
+      }
+    });
+  });
+  if(windows.length === 0){
+    return {status:'none', label:t('statusNone')};
+  }
+  windows.sort((a,b)=>a[0]-b[0]);
+  const merged = [];
+  windows.forEach(w=>{
+    if(merged.length && w[0] <= merged[merged.length-1][1]){
+      merged[merged.length-1][1] = Math.max(merged[merged.length-1][1], w[1]);
+    } else {
+      merged.push([w[0], w[1]]);
+    }
+  });
+
+  if(nowMin < merged[0][0]){
+    return {status:'before', label:t('statusBefore', fmtMin(merged[0][0]))};
+  }
+  for(let i=0;i<merged.length;i++){
+    const [s,e] = merged[i];
+    if(nowMin >= s && nowMin <= e){
+      return {status:'open', label:t('statusOpen')};
+    }
+    if(i < merged.length-1 && nowMin > e && nowMin < merged[i+1][0]){
+      return {status:'lunch', label:t('statusLunch', fmtMin(merged[i+1][0]))};
+    }
+  }
+  return {status:'closed', label:t('statusClosed')};
+}
+
+function deptHasDataToday(dept, dayKey){
+  return dept.blocks.some(b => b[dayKey]);
+}
+
+// ---------- Boot: no upfront fetch. We lazy-load one prefecture at a time. ----------
+function applyStaticText(){
+  document.getElementById('leadText').textContent = t('lead');
+  document.getElementById('todayPrefix').textContent = t('todayPrefix');
+  document.getElementById('clockSep').textContent = t('clockSep');
+  document.getElementById('noticeText').textContent = t('notice');
+  document.getElementById('changeHomeBtn').textContent = t('changeHome');
+  document.getElementById('nearbyLabel').textContent = t('nearbyLabel');
+  document.getElementById('nearbySelectPlaceholder').textContent = t('selectPlease');
+  document.getElementById('nearbyBadge').textContent = t('nearbyBadge');
+  document.getElementById('searchInput').setAttribute('placeholder', t('searchPlaceholder'));
+  document.getElementById('kindAllBtn').textContent = t('all');
+  document.getElementById('kindHospitalBtn').textContent = t('hospital');
+  document.getElementById('kindClinicBtn').textContent = t('clinic');
+  document.getElementById('sortNameBtn').textContent = t('sortName');
+  document.getElementById('sortOpenBtn').textContent = t('sortOpen');
+  document.getElementById('modalTitle').textContent = t('modalTitle');
+  document.getElementById('modalDesc').textContent = t('modalDesc');
+  document.getElementById('homeCityConfirm').textContent = t('confirmHome');
+  document.getElementById('footerText').textContent = t('footer');
+  document.getElementById('bootLoadingText').textContent = t('bootLoading');
+  document.querySelectorAll('#langSwitch button').forEach(b=>{
+    b.classList.toggle('active', b.getAttribute('data-lang')===lang);
+  });
+}
+applyStaticText();
+
+async function boot(){
+  try {
+    await initApp();
+    document.getElementById('bootLoading').style.display = 'none';
+    document.getElementById('appBody').style.display = '';
+  } catch(err){
+    document.getElementById('bootLoading').innerHTML =
+      `<div class="big">⚠️</div><p>${t('loadError')}</p>`;
+    console.error(err);
+  }
+}
+
+async function initApp(){
+const HOME_KEY = 'sekiIryoHomeCity';
+const cityKey = (pref, city) => pref + '||' + city;
+const isTownVillage = name => name.includes('郡') || name.includes('村');
+
+
+function cityListInLoaded(){
+  return Array.from(new Set(DATA.map(f=>cityKey(f.pref, f.city))))
+    .map(k=>{ const [pref, city] = k.split('||'); return {key:k, pref, city}; });
+}
+function cityCount(key){ return DATA.filter(f=>cityKey(f.pref,f.city)===key).length; }
+function cityLabel(key){ const [,city] = key.split('||'); return city; }
+function prefOf(key){ const [pref] = key.split('||'); return pref; }
+function citiesInPref(pref){ return cityListInLoaded().filter(c=>c.pref===pref); }
+
+function centroidsFor(list){
+  const centroids = {};
+  list.forEach(({key, pref, city})=>{
+    const pts = DATA.filter(f=>f.pref===pref && f.city===city && f.lat && f.lng);
+    if(pts.length){
+      centroids[key] = {
+        lat: pts.reduce((s,p)=>s+p.lat,0)/pts.length,
+        lng: pts.reduce((s,p)=>s+p.lng,0)/pts.length
+      };
+    }
+  });
+  return centroids;
+}
+
+function haversine(a, b){
+  const R = 6371;
+  const dLat = (b.lat-a.lat) * Math.PI/180;
+  const dLng = (b.lng-a.lng) * Math.PI/180;
+  const s = Math.sin(dLat/2)**2 + Math.cos(a.lat*Math.PI/180)*Math.cos(b.lat*Math.PI/180)*Math.sin(dLng/2)**2;
+  return R * 2 * Math.atan2(Math.sqrt(s), Math.sqrt(1-s));
+}
+
+// Nearby candidates come from the home prefecture plus its land-adjacent
+// prefectures (loaded lazily). This keeps "nearby" accurate without ever
+// having to fetch all 47 prefecture files.
+async function nearestCities(homeKey, n=6){
+  const homePref = prefOf(homeKey);
+  const neighbors = PREF_ADJACENCY[homePref] || [];
+  await Promise.all(neighbors.map(p => loadPref(p).catch(()=>null)));
+  const list = cityListInLoaded();
+  const centroids = centroidsFor(list);
+  const home = centroids[homeKey];
+  if(!home) return [];
+  return list
+    .map(c=>c.key)
+    .filter(k=>k!==homeKey && centroids[k])
+    .map(k=>({key:k, dist: haversine(home, centroids[k])}))
+    .sort((a,b)=>a.dist-b.dist)
+    .slice(0,n)
+    .map(x=>x.key);
+}
+
+const cityMainBtn = document.getElementById('cityMainBtn');
+const nearbySelect = document.getElementById('nearbySelect');
+const nearbyWrap = document.getElementById('nearbyWrap');
+const homeModalOverlay = document.getElementById('homeModalOverlay');
+const homePrefSelect = document.getElementById('homePrefSelect');
+const homeCitySelect = document.getElementById('homeCitySelect');
+const homeCityConfirm = document.getElementById('homeCityConfirm');
+const changeHomeBtn = document.getElementById('changeHomeBtn');
+
+document.querySelectorAll('#langSwitch button').forEach(btn=>{
+  btn.addEventListener('click', async ()=>{
+    const newLang = btn.getAttribute('data-lang');
+    if(newLang === lang) return;
+    lang = newLang;
+    localStorage.setItem(LANG_KEY, lang);
+    applyStaticText();
+    buildHomePrefOptions();
+    if(homePrefSelect.value) await populateCitySelect(homePrefSelect.value);
+    renderDeptOptions();
+    renderCitySelector();
+    await refreshNearbyOptions();
+    render();
+  });
+});
+
+function buildHomePrefOptions(){
+  homePrefSelect.innerHTML = `<option value="">${t('prefSelectPlaceholder')}</option>` +
+    PREF_LIST.map(p=>`<option value="${p}">${translatePref(p)}</option>`).join('');
+}
+buildHomePrefOptions();
+
+async function populateCitySelect(pref){
+  if(!pref){
+    homeCitySelect.innerHTML = `<option value="">${t('citySelectWaiting')}</option>`;
+    homeCitySelect.disabled = true;
+    return;
+  }
+  homeCitySelect.innerHTML = `<option value="">${t('loading')}</option>`;
+  homeCitySelect.disabled = true;
+  await loadPref(pref);
+  const cities = citiesInPref(pref);
+  const shiList = cities.filter(c=>!isTownVillage(c.city)).sort((a,b)=>a.city.localeCompare(b.city,'ja'));
+  const townList = cities.filter(c=>isTownVillage(c.city)).sort((a,b)=>a.city.localeCompare(b.city,'ja'));
+  homeCitySelect.innerHTML =
+    `<optgroup label="${t('shiGroup')}">${shiList.map(c=>`<option value="${c.key}">${c.city}（${cityCount(c.key)}）</option>`).join('')}</optgroup>` +
+    `<optgroup label="${t('townGroup')}">${townList.map(c=>`<option value="${c.key}">${c.city}（${cityCount(c.key)}）</option>`).join('')}</optgroup>`;
+  homeCitySelect.disabled = false;
+}
+homePrefSelect.addEventListener('change', ()=> populateCitySelect(homePrefSelect.value));
+
+let homeCity = localStorage.getItem(HOME_KEY);
+if(homeCity && !homeCity.includes('||')){
+  homeCity = null; // stale format from an older version of the site
+}
+
+async function refreshNearbyOptions(){
+  nearbySelect.innerHTML = `<option value="">${t('loading')}</option>`;
+  const nearby = await nearestCities(homeCity);
+  nearbySelect.innerHTML = `<option value="">${t('selectPlease')}</option>` +
+    nearby.map(k=>`<option value="${k}">${cityLabel(k)}（${translatePref(prefOf(k))}・${cityCount(k)}）</option>`).join('');
+}
+
+function renderCitySelector(){
+  const onHome = state.city === homeCity;
+  cityMainBtn.innerHTML = `<span class="pin">📍</span>${cityLabel(homeCity)}<span style="opacity:.6;font-weight:700;font-size:12px;margin-left:2px">(${cityCount(homeCity)})</span>`;
+  cityMainBtn.classList.toggle('inactive', !onHome);
+  nearbyWrap.classList.toggle('active', !onHome);
+  nearbySelect.value = onHome ? '' : state.city;
+}
+
+async function openHomeModal(){
+  if(homeCity){
+    const pref = prefOf(homeCity);
+    homePrefSelect.value = pref;
+    await populateCitySelect(pref);
+    homeCitySelect.value = homeCity;
+  } else {
+    homePrefSelect.value = '';
+    await populateCitySelect('');
+  }
+  homeModalOverlay.classList.remove('hidden');
+}
+function closeHomeModal(){
+  homeModalOverlay.classList.add('hidden');
+}
+
+homeCityConfirm.addEventListener('click', async ()=>{
+  const chosen = homeCitySelect.value;
+  if(!chosen) return;
+  homeCity = chosen;
+  localStorage.setItem(HOME_KEY, homeCity);
+  state.city = homeCity;
+  state.dept = '';
+  renderDeptOptions();
+  renderCitySelector();
+  closeHomeModal();
+  render();
+  refreshNearbyOptions();
+});
+changeHomeBtn.addEventListener('click', openHomeModal);
+cityMainBtn.addEventListener('click', ()=>{
+  state.city = homeCity;
+  state.dept = '';
+  renderDeptOptions();
+  renderCitySelector();
+  render();
+});
+nearbySelect.addEventListener('change', async ()=>{
+  if(!nearbySelect.value) return;
+  const targetPref = prefOf(nearbySelect.value);
+  await loadPref(targetPref);
+  state.city = nearbySelect.value;
+  state.dept = '';
+  renderDeptOptions();
+  renderCitySelector();
+  render();
+});
+
+// ---------- Build department filter options (scoped to current city) ----------
+const deptSelect = document.getElementById('deptSelect');
+function renderDeptOptions(){
+  const depts = Array.from(new Set(
+    DATA.filter(f=>cityKey(f.pref,f.city)===state.city).flatMap(f => f.departments.map(d => d.dept))
+  )).sort((a,b)=>translateDept(a).localeCompare(translateDept(b), lang==='en'?'en':'ja'));
+  deptSelect.innerHTML = `<option value="">${t('allDepts')}</option>` +
+    depts.map(d=>`<option value="${d}">${translateDept(d)}</option>`).join('');
+}
+
+// ---------- State ----------
+const DEFAULT_PREF = '岐阜県', DEFAULT_CITY = '関市';
+let state = { q:'', dept:'', kind:'', sort:'open', city: homeCity || cityKey(DEFAULT_PREF, DEFAULT_CITY), expandedChip:{} };
+
+if(!homeCity){
+  homeCity = cityKey(DEFAULT_PREF, DEFAULT_CITY);
+  await loadPref(DEFAULT_PREF);
+  openHomeModal();
+} else {
+  await loadPref(prefOf(homeCity));
+}
+renderCitySelector();
+renderDeptOptions();
+render();
+setInterval(render, 30000);
+refreshNearbyOptions();
+
+function mapsUrl(fac){
+  if(fac.lat && fac.lng) return `https://www.google.com/maps/search/?api=1&query=${fac.lat},${fac.lng}`;
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(fac.address)}`;
+}
+
+function scheduleTableHTML(dept, dayKey){
+  const perDay = {};
+  DAY_LABELS_ROW.forEach(d=>perDay[d]=[]);
+  dept.blocks.forEach(b=>{
+    DAY_LABELS_ROW.forEach(d=>{
+      if(b[d]) perDay[d].push(`${b[d][0]}–${b[d][1]}`);
+    });
+  });
+  let html = '<table><thead><tr>' + DAY_LABELS_ROW.map(d=>`<th class="${d===dayKey?'today':''}">${translateDay(d)}</th>`).join('') + '</tr></thead><tbody><tr>';
+  html += DAY_LABELS_ROW.map(d=>{
+    const cell = perDay[d].length ? perDay[d].map(s=>`<span class="blockline">${s}</span>`).join('') : `<span class="blockline" style="color:#c3c9d1">${t('holiday')}</span>`;
+    return `<td class="${d===dayKey?'today':''}">${cell}</td>`;
+  }).join('');
+  html += '</tr></tbody></table>';
+  return html;
+}
+
+function render(){
+  const d = now();
+  const dayKey = todayKey(d);
+  const nowMin = d.getHours()*60 + d.getMinutes();
+
+  document.getElementById('todayLabel').textContent = translateDay(dayKey) + t('todayLabelSuffix');
+  document.getElementById('clockLabel').textContent =
+    String(d.getHours()).padStart(2,'0') + ':' + String(d.getMinutes()).padStart(2,'0');
+
+  let items = DATA.filter(fac => cityKey(fac.pref,fac.city) === state.city).map(fac => ({
+    fac,
+    status: facilityStatus(fac, dayKey, nowMin)
+  }));
+
+  if(state.kind) items = items.filter(x=>x.fac.kind===state.kind);
+
+  if(state.dept) items = items.filter(x=>x.fac.departments.some(d=>d.dept===state.dept));
+
+  if(state.q){
+    const q = state.q.toLowerCase();
+    items = items.filter(x =>
+      x.fac.name.toLowerCase().includes(q) ||
+      x.fac.address.toLowerCase().includes(q) ||
+      x.fac.departments.some(d=>d.dept.toLowerCase().includes(q) || translateDept(d.dept).toLowerCase().includes(q))
+    );
+  }
+
+  if(state.sort === 'open'){
+    const priority = {open:0, lunch:1, before:2, closed:3, none:4};
+    items.sort((a,b)=> (priority[a.status.status]-priority[b.status.status]) || a.fac.name.localeCompare(b.fac.name,'ja'));
+  } else {
+    items.sort((a,b)=> a.fac.name.localeCompare(b.fac.name,'ja'));
+  }
+
+  document.getElementById('resultCount').textContent = t('resultCount', items.length);
+
+  const list = document.getElementById('list');
+  if(items.length === 0){
+    list.innerHTML = `<div class="empty"><div class="big">🔍</div>${t('emptyResult')}</div>`;
+    return;
+  }
+
+  list.innerHTML = items.map(({fac, status}) => {
+    const kindLabel = fac.kind === 'hospital' ? t('hospital') : t('clinic');
+    const deptChips = fac.departments.map(dept=>{
+      const dOpen = deptIsOpen(dept, dayKey, nowMin);
+      const hasToday = deptHasDataToday(dept, dayKey);
+      const isMatch = state.dept && dept.dept === state.dept;
+      const key = fac.id + '__' + dept.dept;
+      const expanded = !!state.expandedChip[key];
+      return {
+        html: `<button class="chip ${expanded?'active':''} ${isMatch?'match':''}" data-key="${key}">
+                 <span class="dot ${hasToday && dOpen ? '' : 'off'}"></span>${translateDept(dept.dept)}
+               </button>`,
+        expanded, dept
+      };
+    });
+
+    const expandedBlocks = deptChips.filter(c=>c.expanded).map(c=>`
+      <div class="schedule">
+        <div style="font-weight:700;font-size:12.5px;margin-bottom:6px;color:var(--steel-700)">${t('scheduleTitle', translateDept(c.dept.dept))}</div>
+        ${scheduleTableHTML(c.dept, dayKey)}
+      </div>`).join('');
+
+    return `
+    <div class="card">
+      <div class="card-top">
+        <div>
+          <p class="card-name"><span class="kind-tag ${fac.kind}">${kindLabel}</span>${fac.name}</p>
+          <p class="card-addr">${fac.address}</p>
+          <div class="card-links">
+            <a href="${mapsUrl(fac)}" target="_blank" rel="noopener">${t('mapLink')}</a>
+            ${fac.url ? `<a href="${fac.url}" target="_blank" rel="noopener">${t('siteLink')}</a>` : ''}
+          </div>
+        </div>
+        <span class="status-badge ${status.status}"><span class="dot"></span>${status.label}</span>
+      </div>
+      <div class="dept-chips">${deptChips.map(c=>c.html).join('')}</div>
+      ${expandedBlocks}
+    </div>`;
+  }).join('');
+
+  list.querySelectorAll('.chip').forEach(btn=>{
+    btn.addEventListener('click', ()=>{
+      const key = btn.getAttribute('data-key');
+      state.expandedChip[key] = !state.expandedChip[key];
+      render();
+    });
+  });
+}
+
+document.getElementById('searchInput').addEventListener('input', e=>{
+  state.q = e.target.value; render();
+});
+document.getElementById('deptSelect').addEventListener('change', e=>{
+  state.dept = e.target.value; render();
+});
+document.getElementById('kindSeg').addEventListener('click', e=>{
+  const btn = e.target.closest('button'); if(!btn) return;
+  document.querySelectorAll('#kindSeg button').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  state.kind = btn.getAttribute('data-kind'); render();
+});
+document.getElementById('sortSeg').addEventListener('click', e=>{
+  const btn = e.target.closest('button'); if(!btn) return;
+  document.querySelectorAll('#sortSeg button').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  state.sort = btn.getAttribute('data-sort'); render();
+});
+
+} // end initApp
+
+boot();
+</script>
+</body>
+</html>

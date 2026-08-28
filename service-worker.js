@@ -1,4 +1,4 @@
-const CACHE_NAME = 'aiteru-byoin-navi-v1';
+const CACHE_NAME = 'aiteru-byoin-navi-v2';
 const APP_SHELL = [
   './',
   './index.html',

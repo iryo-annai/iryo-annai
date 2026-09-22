@@ -490,6 +490,25 @@
   }
   footer a{color:var(--steel-500);}
 
+  .support-section{
+    max-width:600px;margin:0 auto 40px;padding:24px 20px;
+    text-align:center;
+  }
+  .support-section h2{
+    font-family:'Shippori Mincho', serif;
+    font-size:19px;
+    margin:0 0 8px;
+    color:var(--ink);
+  }
+  .support-section p{
+    margin:0 0 16px;
+    font-size:13.5px;
+    color:var(--steel-500);
+  }
+  .support-section iframe{
+    border:none;width:100%;padding:4px;background:#f9f9f9;border-radius:var(--radius);
+  }
+
   @media (max-width:600px){
     .city-tabs{margin-top:-14px; align-items:center;}
     .city-main{padding:9px 14px 10px; font-size:13px;}
@@ -567,6 +586,12 @@
 <footer id="footerText">
   対象エリア：全国47都道府県（87,870件）。データ出典：厚生労働省「医療情報ネット（ナビイ）」オープンデータ（2026年6月1日時点、病院・診療所）／公共データ利用規約(PDL1.0)。診療時間・診療科は各施設からの報告時点の情報のため、受診前に必ず各施設へご確認ください。
 </footer>
+
+<section class="support-section" id="supportSection">
+  <h2 id="supportTitle">アイテル病院ナビを応援する</h2>
+  <p id="supportDesc">このサービスの継続・改善のため、よろしければご支援をお願いします。</p>
+  <iframe id='kofiframe' src='https://ko-fi.com/aiteruiryonavi/?hidefeed=true&widget=true&embed=true&preview=true' style='border:none;width:100%;padding:4px;background:#f9f9f9;' height='712' title='aiteruiryonavi'></iframe>
+</section>
 
 <div class="modal-overlay hidden" id="homeModalOverlay">
   <div class="modal-card">
@@ -674,6 +699,7 @@ const I18N = {
     holiday: '休診', statusOpen: '診療時間内', statusLunch: min => `昼休み中（${min}〜再開）`,
     statusBefore: min => `本日 ${min}〜 受付予定`, statusClosed: '本日の受付終了', statusNone: '本日休診',
     todayLabelSuffix: '曜日',
+    supportTitle: 'アイテル病院ナビを応援する', supportDesc: 'このサービスの継続・改善のため、よろしければご支援をお願いします。',
   },
   en: {
     lead: 'Find hospitals and clinics anywhere in Japan\u2019s 47 prefectures, centered on your area. Search by department and by whether they\u2019re open right now. Built on open data from Japan\u2019s Ministry of Health, Labour and Welfare.',
@@ -694,6 +720,7 @@ const I18N = {
     holiday: 'Closed', statusOpen: 'Open now', statusLunch: min => `On lunch break (reopens ${min})`,
     statusBefore: min => `Opens at ${min} today`, statusClosed: 'Closed for today', statusNone: 'Closed today',
     todayLabelSuffix: '',
+    supportTitle: 'Support Aiteru Byoin Navi', supportDesc: 'If you find this service useful, your support helps keep it running and improving.',
   }
 };
 let lang = localStorage.getItem('sekiIryoLang') || 'ja';
@@ -806,6 +833,8 @@ function applyStaticText(){
   document.getElementById('modalDesc').textContent = t('modalDesc');
   document.getElementById('homeCityConfirm').textContent = t('confirmHome');
   document.getElementById('footerText').textContent = t('footer');
+  document.getElementById('supportTitle').textContent = t('supportTitle');
+  document.getElementById('supportDesc').textContent = t('supportDesc');
   document.getElementById('bootLoadingText').textContent = t('bootLoading');
   document.querySelectorAll('#langSwitch button').forEach(b=>{
     b.classList.toggle('active', b.getAttribute('data-lang')===lang);
